@@ -1,11 +1,34 @@
 import cowsay
 
-#print("Hola Mundo, ésta es mi PITÓN")
-#cowsay.cow("Hola Mundo, ésta es mi PITÓN")
+from transacciones import ejecutar_proceso
 
-def main():
-    # TODO: Invoca aquí la función de cowsay con el mensaje que desees
-    cowsay.cow("Hola Mundo, ésta es mi PITÓN")
+
+def menu_principal():
+    print("=== SISTEMA SELECTOR DE EJERCICIOS ===")
+    print("1. Ejecutar procesamiento de transacciones")
+    print("2. Mostrar mensajes de cowsay")
+    print("3. Pendiente programar")
+    print("x. Salir")
+    
+    opcion = input("Seleccione una opción: ")
+    
+    if opcion == "1":
+        ejecutar_proceso()
+    elif opcion == "2":
+        cowsay_mensajes()
+    elif opcion == "3":
+        print("Opcion pendiente de programar")
+    elif opcion == "x":
+        print("Saliendo del programa.")
+    else:
+        print("Opción no válida.")
+
+
+def cowsay_mensajes():
+    cowsay.cow("vaca")
+    cowsay.fox("zorro")
+
 
 if __name__ == "__main__":
-    main()
+    menu_principal()
+
