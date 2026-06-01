@@ -19,7 +19,7 @@ def menu_principal():
     elif opcion == "3":
         print("Opcion pendiente de programar")
     elif opcion == "x":
-        print("Saliendo del programa.")
+        print("Cerra el orto.")
     else:
         print("Opción no válida.")
 
