@@ -8,7 +8,7 @@ def ejecutar_proceso():
         {"id": 101, "tipo": "ingreso", "monto": 15000},
         {"id": 102, "tipo": "egreso", "monto": 3500},
         {"id": 103, "tipo": "ingreso", "monto": 8000},
-        {"id": 104, "tipo": "ingreso", "monto": 22000},
+        {"id": 104, "tipo": "ingreso", "monto": 23000},
     ]
 
     total_impuestos = 0
