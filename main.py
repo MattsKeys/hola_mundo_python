@@ -34,6 +34,7 @@ def menu_principal():
 def cowsay_mensajes():
     cowsay.cow("vaca")
     cowsay.fox("zorro")
+    cowsay.daemon("demonio")
 
 
 if __name__ == "__main__":
