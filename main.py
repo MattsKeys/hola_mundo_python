@@ -1,6 +1,8 @@
 import cowsay
+import sys
 
 from transacciones import ejecutar_proceso
+from src.ejercicios.funciones_basicas_M import Prueba
 
 
 def menu_principal():
@@ -8,6 +10,7 @@ def menu_principal():
     print("1. Ejecutar procesamiento de transacciones")
     print("2. Mostrar mensajes de cowsay")
     print("3. Pendiente programar")
+    print("5. el cinco tío...")
     print("x. Salir")
     
     opcion = input("Seleccione una opción: ")
@@ -18,6 +21,8 @@ def menu_principal():
         cowsay_mensajes()
     elif opcion == "3":
         print("Opcion pendiente de programar")
+    elif opcion == "5":
+        Prueba()
     elif opcion == "x":
         print("Cerra el orto.")
     else:
