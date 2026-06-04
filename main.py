@@ -35,13 +35,11 @@ def menu_principal():
 def cowsay_mensajes():
     cowsay.cow("vaca")
     cowsay.fox("zorro")
-<<<<<<< HEAD
     cowsay.tux("linux")
     cowsay.ghostbusters("cazafantasmas")
-=======
     cowsay.daemon("demonio")
+    cowsay.milk("milk")
 
->>>>>>> 06c2dd384e04dc3a4a3e6788c42ad3c817566987
 
 if __name__ == "__main__":
     menu_principal()
