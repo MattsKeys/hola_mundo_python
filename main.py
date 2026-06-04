@@ -34,7 +34,8 @@ def menu_principal():
 def cowsay_mensajes():
     cowsay.cow("vaca")
     cowsay.fox("zorro")
-
+    cowsay.tux("linux")
+    cowsay.ghostbusters("cazafantasmas")
 
 if __name__ == "__main__":
     menu_principal()
