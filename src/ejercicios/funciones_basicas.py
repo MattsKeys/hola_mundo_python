@@ -28,24 +28,19 @@ def enviar_prompt(prompt):
         return http_rta
 
 
-prompt = "hola chat"
-try:
-    http_rta = enviar_prompt(prompt)
+prompt = "hola chat prro"
 
-    match http_rta:
-        case 200:
-            print("Solicitud exitosa. Procesando tokens...")
-        case 401:
-            print("Error de autenticación: API Key inválida.")
-        case 429:
-            print("Límite de cuota excedido. Reintentando en breve...")
-        case 500|503:
-            print("Error del servidor de IA.")
-        case _:
-            print(f"error inesperado {http_rta}")
+http_rta = enviar_prompt(prompt)
 
-except ValueError as error:
-    print(f"Error de API Key: {error}")
-except TimeoutError as error:
-    print(f"Error de TimeoutError: {error}")
+match http_rta:
+    case 200:
+        print("Solicitud exitosa. Procesando tokens...")
+    case 401:
+        print("Error de autenticación: API Key inválida.")
+    case 429:
+        print("Límite de cuota excedido. Reintentando en breve...")
+    case 500|503:
+        print("Error del servidor de IA.")
+    case _:
+        print(f"error inesperado {http_rta}")
 
