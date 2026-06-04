@@ -12,7 +12,7 @@ def menu_principal():
     print("1. Ejecutar procesamiento de transacciones")
     print("2. Mostrar mensajes de cowsay")
     print("3. Enviar Prompt")
-    #print("3/. Enviar Prompt")
+    print("4. ponete en 4")
     print("x. Salir")
     
     opcion = input("Seleccione una opción: ")
