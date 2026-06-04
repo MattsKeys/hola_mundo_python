@@ -1,28 +1,32 @@
 import cowsay
 
 from transacciones import ejecutar_proceso
+import src.ejercicios.funciones_basicas
 
 
 def menu_principal():
     print("=== SISTEMA SELECTOR DE EJERCICIOS ===")
     print("1. Ejecutar procesamiento de transacciones")
     print("2. Mostrar mensajes de cowsay")
-    print("3. Pendiente programar")
+    print("3. Enviar Prompt")
+    #print("3/. Enviar Prompt")
     print("x. Salir")
     
     opcion = input("Seleccione una opción: ")
-    
-    if opcion == "1":
-        ejecutar_proceso()
-    elif opcion == "2":
-        cowsay_mensajes()
-    elif opcion == "3":
-        print("Opcion pendiente de programar")
-    elif opcion == "x":
-        print("Cerra el orto.")
-    else:
-        print("Opción no válida.")
 
+    match opcion:
+        case "1":
+            ejecutar_proceso()
+        case "2":
+            cowsay_mensajes()
+        case "3":
+            src.ejercicios.funciones_basicas.main()
+
+        case "x":
+            print("Cerra el orto.")
+        case _:
+            print("¿Sos pelotudo?")
+        
 
 def cowsay_mensajes():
     cowsay.cow("vaca")
