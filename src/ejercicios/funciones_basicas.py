@@ -1,3 +1,23 @@
+import random
+
+def main():
+    prompt = "hola chat prro"
+
+    http_rta = enviar_prompt(prompt)
+
+    match http_rta:
+        case 200:
+            print("Solicitud exitosa. Procesando tokens...")
+        case 401:
+            print("Error de autenticación: API Key inválida.")
+        case 429:
+            print("Límite de cuota excedido. Reintentando en breve...")
+        case 500|503:
+            print("Error del servidor de IA.")
+        case _:
+            print(f"error inesperado {http_rta}")
+
+
 def control_tokens(lista_tokens):
     
     for token in lista_tokens:
@@ -12,8 +32,6 @@ def control_tokens(lista_tokens):
         print(mensaje)
 
 
-import random
-
 def enviar_prompt(prompt):
     #ejecución de código
 
@@ -27,20 +45,4 @@ def enviar_prompt(prompt):
         http_rta = random.choice([200,401,429,500,503])
         return http_rta
 
-
-prompt = "hola chat prro"
-
-http_rta = enviar_prompt(prompt)
-
-match http_rta:
-    case 200:
-        print("Solicitud exitosa. Procesando tokens...")
-    case 401:
-        print("Error de autenticación: API Key inválida.")
-    case 429:
-        print("Límite de cuota excedido. Reintentando en breve...")
-    case 500|503:
-        print("Error del servidor de IA.")
-    case _:
-        print(f"error inesperado {http_rta}")
 
