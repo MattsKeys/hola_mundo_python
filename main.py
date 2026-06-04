@@ -7,11 +7,16 @@ import src.ejercicios.funciones_basicas
 
 
 def menu_principal():
+    print("bienvenides")
     print("=== SISTEMA SELECTOR DE EJERCICIOS ===")
     print("1. Ejecutar procesamiento de transacciones")
     print("2. Mostrar mensajes de cowsay")
     print("3. Enviar Prompt")
+<<<<<<< HEAD
     print("4. Puti Prompt")
+=======
+    print("4. ponete en 4")
+>>>>>>> 2f615dad270d9e42fba13baab35667ceae85d3f5
     print("x. Salir")
     
     opcion = input("Seleccione una opción: ")
@@ -34,6 +39,10 @@ def menu_principal():
 def cowsay_mensajes():
     cowsay.cow("vaca")
     cowsay.fox("zorro")
+    cowsay.tux("linux")
+    cowsay.ghostbusters("cazafantasmas")
+    cowsay.daemon("demonio")
+    cowsay.milk("milk")
 
 
 if __name__ == "__main__":
