@@ -7,6 +7,7 @@ import src.ejercicios.funciones_basicas
 
 
 def menu_principal():
+    print("bienvenides")
     print("=== SISTEMA SELECTOR DE EJERCICIOS ===")
     print("1. Ejecutar procesamiento de transacciones")
     print("2. Mostrar mensajes de cowsay")
