@@ -2,7 +2,8 @@ import cowsay
 import sys
 
 from transacciones import ejecutar_proceso
-from src.ejercicios.funciones_basicas_M import Prueba
+#from src.ejercicios.ia_diccionario import ConfigIA,init_config_ia
+#from src.ejercicios.ia_comunicaciones import simula_envio
 import src.ejercicios.funciones_basicas
 
 
@@ -23,9 +24,16 @@ def menu_principal():
         case "2":
             cowsay_mensajes()
         case "3":
-            src.ejercicios.funciones_basicas.main()
+
+            #configuracion_ia: ConfigIA = init_ConfigIA()
+            #configuracion_ia["modelo"] = input("Seleccione modelo:")
+            #configuracion_ia["tema"] = input("Seleccione tema:")
+            #configuracion_ia["consulta"] = input("Seleccione consulta:")
+
+            #respuesta = simula_envio(configuracion_ia)
+            #print(f"Esta es la respuesta de la funcion: {respuesta}")
         case "5":
-            Prueba() 
+            Prueba()
         case "x":
             print("Cerra el orto.")
         case _:
