@@ -5,12 +5,12 @@ import matplotlib.patches as mpatches
 import numpy as np
 import pandas as pd
 import os
+import shutil
 from matplotlib.collections import LineCollection
 
 # Crea la carpeta si no existe, luego activa el caché
 cache_path = os.path.join(os.path.dirname(__file__), "f1_cache")
 os.makedirs(cache_path, exist_ok=True)
-fastf1.Cache.enable_cache(cache_path)
 output_path = os.path.join(os.path.dirname(__file__), "f1_cache", "graficos")
 os.makedirs(output_path, exist_ok=True)                              
 fastf1.Cache.enable_cache(cache_path)
@@ -278,6 +278,10 @@ def grafico_posiciones_carrera():
 # MAIN — ejecutar todos los gráficos
 # 
 
+def limpiar_graficos():
+    shutil.rmtree(cache_path, ignore_errors=True)
+    os.makedirs(cache_path, exist_ok=True)
+
 def menu_principal():
     while True:
         print("Gráficos F1\n")
@@ -308,10 +312,16 @@ def menu_principal():
                 case "5":
                     grafico_posiciones_carrera()
                 case "x":
+                    limpiar_graficos()
                     print("\n¡Hasta la próxima! 🏁\n")
                     break
                 case _:
                     print("\n  ⚠️  Opción no válida, intentá de nuevo.")
+                    
+        except KeyboardInterrupt:
+            limpiar_graficos()
+            print("\n¡Hasta la próxima! 🏁\n")
+            break
                     
         except Exception as e:
             print(f"\n  Error: {e}")
