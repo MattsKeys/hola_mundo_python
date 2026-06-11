@@ -11,6 +11,9 @@ from matplotlib.collections import LineCollection
 cache_path = os.path.join(os.path.dirname(__file__), "f1_cache")
 os.makedirs(cache_path, exist_ok=True)
 fastf1.Cache.enable_cache(cache_path)
+output_path = os.path.join(os.path.dirname(__file__), "f1_cache", "graficos")
+os.makedirs(output_path, exist_ok=True)                              
+fastf1.Cache.enable_cache(cache_path)
 
 
 # 1. COMPARACIÓN DE TIEMPOS DE VUELTA — todos los pilotos en clasificación
@@ -58,10 +61,10 @@ def grafico_tiempos_vuelta():
     ax.set_xticks(range(len(order)))
     ax.set_xticklabels(order, rotation=45, ha="right")
     ax.set_ylabel("Tiempo de vuelta (s)")
-    ax.set_title("Canada 2026 – Q: Distribución de tiempos de vuelta", fontsize=14)
+    ax.set_title(f"{circuito} {anio} – Q: Distribución de tiempos de vuelta", fontsize=14)
     ax.grid(axis="y", alpha=0.3)
     plt.tight_layout()
-    plt.savefig("1_tiempos_vuelta_Canada_Q.png", dpi=150)
+    plt.savefig(os.path.join(output_path, f"1_tiempos_vuelta_{circuito}_{anio}_Q.png"), dpi=150)
     plt.show()
     print("✅ Gráfico 1 guardado.")
 
@@ -92,7 +95,7 @@ def grafico_telemetria_comparada(driver1, driver2):
 
     fig, axes = plt.subplots(3, 1, figsize=(13, 9), sharex=True)
     fig.suptitle(
-        f"Canada 2026 – Q: {driver1} vs {driver2} (vuelta rápida)", fontsize=14
+        f"{circuito} {anio} – Q: {driver1} vs {driver2} (vuelta rápida)", fontsize=14
     )
 
     # Velocidad
@@ -116,7 +119,7 @@ def grafico_telemetria_comparada(driver1, driver2):
     axes[2].grid(alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig("2_telemetria_comparada_Canada_Q.png", dpi=150)
+    plt.savefig(os.path.join(output_path, f"2_telemetria_comparada_{circuito}_{anio}_Q.png"), dpi=150)
     plt.show()
     print("✅ Gráfico 2 guardado.")
 
@@ -163,10 +166,10 @@ def grafico_mapa_velocidad(driver1):
     ax.set_ylim(y.min() - 100, y.max() + 100)
     ax.set_aspect("equal")
     ax.axis("off")
-    ax.set_title(f"Canada 2026 – Q: Mapa de velocidad — {driver1}", fontsize=14)
+    ax.set_title(f"{circuito} {anio} – Q: Mapa de velocidad — {driver1}", fontsize=14)
  
     plt.tight_layout()
-    plt.savefig("3_mapa_velocidad_Canada.png", dpi=150)
+    plt.savefig(os.path.join(output_path, f"3_mapa_velocidad_{circuito}_{anio}.png"), dpi=150)
     plt.show()
     print("✅ Gráfico 3 guardado.")
 
@@ -217,7 +220,7 @@ def grafico_estrategia_neumaticos():
     ax.set_yticks(range(len(drivers_sorted)))
     ax.set_yticklabels(drivers_sorted, fontsize=8)
     ax.set_xlabel("Vuelta")
-    ax.set_title("Miami 2026 – Carrera: Estrategia de neumáticos", fontsize=14)
+    ax.set_title(f"{circuito} {anio} – Carrera: Estrategia de neumáticos", fontsize=14)
 
     # Leyenda
     patches = [
@@ -227,7 +230,7 @@ def grafico_estrategia_neumaticos():
     ax.grid(axis="x", alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig("4_estrategia_neumaticos_miami_R.png", dpi=150)
+    plt.savefig(os.path.join(output_path, f"4_estrategia_neumaticos_{circuito}_{anio}_R.png"), dpi=150)
     plt.show()
     print("✅ Gráfico 4 guardado.")
 
@@ -263,11 +266,11 @@ def grafico_posiciones_carrera():
     ax.set_yticks(range(1, 21))
     ax.set_xlabel("Vuelta")
     ax.set_ylabel("Posición")
-    ax.set_title("Canada 2026 – Carrera: Evolución de posiciones", fontsize=14)
+    ax.set_title(f"{circuito} {anio} – Carrera: Evolución de posiciones", fontsize=14)
     ax.grid(alpha=0.2)
 
     plt.tight_layout()
-    plt.savefig("5_posiciones_carrera_Canada.png", dpi=150)
+    plt.savefig(os.path.join(output_path, f"5_posiciones_carrera_{circuito}_{anio}.png"), dpi=150)
     plt.show()
     print("✅ Gráfico 5 guardado.")
 
