@@ -14,6 +14,7 @@ def menu_principal():
     print("2. Mostrar mensajes de cowsay")
     print("3. Enviar Prompt")
     print("4. ponete en 4")
+    print("8. Botonera")
     print("x. Salir")
     
     opcion = input("Seleccione una opción: ")
@@ -33,6 +34,8 @@ def menu_principal():
             #respuesta = simula_envio(configuracion_ia)
             #print(f"Esta es la respuesta de la funcion: {respuesta}")
         case "5":
+            pass
+        case "8":
             pass
         case "x":
             print("Cerra el orto.")
