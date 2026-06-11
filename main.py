@@ -24,7 +24,7 @@ def menu_principal():
         case "2":
             cowsay_mensajes()
         case "3":
-
+            pass
             #configuracion_ia: ConfigIA = init_ConfigIA()
             #configuracion_ia["modelo"] = input("Seleccione modelo:")
             #configuracion_ia["tema"] = input("Seleccione tema:")
