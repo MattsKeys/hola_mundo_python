@@ -33,7 +33,7 @@ def menu_principal():
             #respuesta = simula_envio(configuracion_ia)
             #print(f"Esta es la respuesta de la funcion: {respuesta}")
         case "5":
-            Prueba()
+            pass
         case "x":
             print("Cerra el orto.")
         case _:
