@@ -10,6 +10,70 @@ from matplotlib.collections import LineCollection
 from datetime import date
 import streamlit as st
 
+
+# Coleccion de pistas
+
+grands_prix = {
+    2018: ["Australia", "Bahrain", "China", "Azerbaijan", "Spain", "Monaco", "Canada",
+           "France", "Austria", "Britain", "Germany", "Hungary", "Belgium", "Italy",
+           "Singapore", "Russia", "Japan", "United States", "Mexico", "Brazil", "Abu Dhabi"],
+    2019: ["Australia", "Bahrain", "China", "Azerbaijan", "Spain", "Monaco", "Canada",
+           "France", "Austria", "Britain", "Germany", "Hungary", "Belgium", "Italy",
+           "Singapore", "Russia", "Japan", "Mexico", "United States", "Brazil", "Abu Dhabi"],
+    2020: ["Austria", "Styria", "Hungary", "Britain", "70th Anniversary", "Spain",
+           "Belgium", "Italy", "Tuscany", "Russia", "Eifel", "Portugal", "Imola",
+           "Turkey", "Bahrain", "Sakhir", "Abu Dhabi"],
+    2021: ["Bahrain", "Imola", "Portugal", "Spain", "Monaco", "Azerbaijan", "France",
+           "Styria", "Austria", "Britain", "Hungary", "Belgium", "Netherlands", "Italy",
+           "Russia", "Turkey", "United States", "Mexico", "Brazil", "Qatar",
+           "Saudi Arabia", "Abu Dhabi"],
+    2022: ["Bahrain", "Saudi Arabia", "Australia", "Imola", "Miami", "Spain", "Monaco",
+           "Azerbaijan", "Canada", "Britain", "Austria", "France", "Hungary", "Belgium",
+           "Netherlands", "Italy", "Singapore", "Japan", "United States", "Mexico",
+           "Brazil", "Abu Dhabi"],
+    2023: ["Bahrain", "Saudi Arabia", "Australia", "Azerbaijan", "Miami", "Monaco",
+           "Spain", "Canada", "Austria", "Britain", "Hungary", "Belgium", "Netherlands",
+           "Italy", "Singapore", "Japan", "Qatar", "United States", "Mexico", "Brazil",
+           "Las Vegas", "Abu Dhabi"],
+    2024: ["Bahrain", "Saudi Arabia", "Australia", "Japan", "China", "Miami", "Imola",
+           "Monaco", "Canada", "Spain", "Austria", "Britain", "Hungary", "Belgium",
+           "Netherlands", "Italy", "Azerbaijan", "Singapore", "United States", "Mexico",
+           "Brazil", "Las Vegas", "Qatar", "Abu Dhabi"],
+    2025: ["Australia", "China", "Japan", "Bahrain", "Saudi Arabia", "Miami", "Imola",
+           "Monaco", "Spain", "Canada", "Austria", "Britain", "Belgium", "Hungary",
+           "Netherlands", "Italy", "Azerbaijan", "Singapore", "United States", "Mexico",
+           "Brazil", "Las Vegas", "Qatar", "Abu Dhabi"],
+}
+
+# Fechas de las carreras de este año
+
+gp_fechas_2026 = {
+    "Australia":          date(2026, 3, 8),
+    "China":              date(2026, 3, 15),
+    "Japan":              date(2026, 3, 29),
+    "Miami":              date(2026, 5, 3),
+    "Canada":             date(2026, 5, 24),
+    "Monaco":             date(2026, 6, 7),
+    "Barcelona-Catalunya": date(2026, 6, 14),
+    "Austria":            date(2026, 6, 28),
+    "Great Britain":      date(2026, 7, 5),
+    "Belgium":            date(2026, 7, 19),
+    "Hungary":            date(2026, 7, 26),
+    "Netherlands":        date(2026, 8, 23),
+    "Italy":              date(2026, 9, 6),
+    "Madrid":             date(2026, 9, 13),
+    "Azerbaijan":         date(2026, 9, 27),
+    "Singapore":          date(2026, 10, 11),
+    "United States":      date(2026, 10, 25),
+    "Mexico":             date(2026, 11, 1),
+    "Brazil":             date(2026, 11, 8),
+    "Las Vegas":          date(2026, 11, 21),
+    "Qatar":              date(2026, 11, 29),
+    "Abu Dhabi":          date(2026, 12, 6),
+}
+
+grands_prix[2026] = [gp for gp, fecha in gp_fechas_2026.items() if fecha <= date.today()]
+
 # ── Rutas ──────────────────────────────────────────────────────────────────
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
 cache_path  = os.path.join(BASE_DIR, "f1_cache")
@@ -28,9 +92,9 @@ atexit.register(limpiar_todo)  # se ejecuta al cerrar el proceso
 
 # ── UI ────────────────────────────────────────────────────────────────────
 st.title("🏎️ Gráficos F1")
-
+st.image("https://img.magnific.com/foto-gratis/carrera-nocturna-f1_23-2151952448.jpg?semt=ais_hybrid&w=740&q=80", use_container_width=True)
 anio    = st.number_input("Año", min_value=2018, max_value=date.today().year, value=date.today().year)
-circuito = st.text_input("Circuito (ej: Monaco, Bahrain, Canada)")
+circuito = st.selectbox("Gran Premio", grands_prix.get(anio, []))
 
 grafico = st.selectbox("Gráfico", [
     "1. Tiempos de vuelta (Clasificación)",
