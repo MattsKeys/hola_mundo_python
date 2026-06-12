@@ -9,6 +9,8 @@ import atexit
 from matplotlib.collections import LineCollection
 from datetime import date
 import streamlit as st
+from datetime import datetime
+import time
 
 
 # Coleccion de pistas
@@ -72,7 +74,45 @@ gp_fechas_2026 = {
     "Abu Dhabi":          date(2026, 12, 6),
 }
 
-grands_prix[2026] = [gp for gp, fecha in gp_fechas_2026.items() if fecha <= date.today()]
+#grands_prix[2026] = [gp for gp, fecha in gp_fechas_2026.items() if fecha <= date.today()]
+
+lista = []
+for gp, fecha in gp_fechas_2026.items():
+    if fecha <= date.today():
+        lista.append(gp)
+grands_prix[2026] = lista
+
+#Prox Carrera
+def proxima_carrera(anio):
+    hoy = datetime.today()
+    proxima = None
+    for gp, fecha in gp_fechas_2026.items() if anio == 2026 else gp_fechas_2026.items():
+        fecha_dt = datetime(fecha.year, fecha.month, fecha.day)
+        if fecha_dt > hoy:
+            proxima = (gp, fecha_dt)
+            break
+    return proxima
+
+
+with st.sidebar:
+    carrera = proxima_carrera(date.today().year)
+    if carrera:
+        nombre_gp, fecha_gp = carrera
+        st.subheader(f"🏁 Próxima carrera")
+        st.write(nombre_gp)
+        
+        ahora = datetime.now()
+        diferencia = fecha_gp - ahora
+        
+        dias     = diferencia.days
+        horas    = diferencia.seconds // 3600
+        minutos  = (diferencia.seconds % 3600) // 60
+        segundos = diferencia.seconds % 60
+        
+        st.metric(
+            label="⏱️ Faltan",
+            value=f"{dias}d {horas}h {minutos}m {segundos}s"
+        )
 
 # ── Rutas ──────────────────────────────────────────────────────────────────
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
@@ -91,6 +131,8 @@ def limpiar_todo():
 atexit.register(limpiar_todo)  # se ejecuta al cerrar el proceso
 
 # ── UI ────────────────────────────────────────────────────────────────────
+st.set_page_config(page_title="Gráficos F1", page_icon="🏎️")
+
 st.title("🏎️ Gráficos F1")
 st.image("https://img.magnific.com/foto-gratis/carrera-nocturna-f1_23-2151952448.jpg?semt=ais_hybrid&w=740&q=80", use_container_width=True)
 anio    = st.number_input("Año", min_value=2018, max_value=date.today().year, value=date.today().year)
@@ -102,13 +144,14 @@ grafico = st.selectbox("Gráfico", [
     "3. Mapa de velocidad",
     "4. Estrategia de neumáticos",
     "5. Evolución de posiciones",
+    "6. Minisectores",
 ])
 
 # Inputs extra según gráfico
 driver1 = driver2 = None
-if grafico in ("2. Telemetría comparada", "3. Mapa de velocidad"):
+if grafico in ("2. Telemetría comparada", "3. Mapa de velocidad", "6. Minisectores"):
     driver1 = st.text_input("Piloto 1 (ej: LEC, VER, HAM)")
-if grafico == "2. Telemetría comparada":
+if grafico in ("2. Telemetría comparada", "6. Minisectores"):
     driver2 = st.text_input("Piloto 2 (ej: LEC, VER, HAM)")
 
 generar = st.button("Generar gráfico")
@@ -259,6 +302,77 @@ def grafico_posiciones_carrera(anio, circuito):
     return fig
 
 
+def grafico_minisectores(anio, circuito, driver1, driver2, num_minisectores=100):
+    session = cargar_sesion(anio, circuito, "Q", telemetria=True)
+    fastf1.plotting.setup_mpl(mpl_timedelta_support=True, color_scheme="fastf1")
+
+    lap1 = session.laps.pick_driver(driver1.upper()).pick_fastest()
+    lap2 = session.laps.pick_driver(driver2.upper()).pick_fastest()
+
+    if lap1 is None:
+        st.error(f"No se encontraron datos para {driver1.upper()}")
+        return None
+    if lap2 is None:
+        st.error(f"No se encontraron datos para {driver2.upper()}")
+        return None
+
+    tel1 = lap1.get_car_data().add_distance()
+    tel2 = lap2.get_car_data().add_distance()
+    pos1 = lap1.get_pos_data()
+
+    dist_max = min(tel1["Distance"].max(), tel2["Distance"].max())
+
+    pos1 = pos1.copy()
+    pos1["Distance"] = np.linspace(0, dist_max, len(pos1))
+
+    minisectores = np.linspace(0, dist_max, num_minisectores + 1)
+
+    x_all, y_all, colores = [], [], []
+
+    color1 = fastf1.plotting.get_driver_color(driver1.upper(), session)
+    color2 = fastf1.plotting.get_driver_color(driver2.upper(), session)
+
+    for i in range(len(minisectores) - 1):
+        inicio, fin = minisectores[i], minisectores[i + 1]
+
+        seg1 = tel1[(tel1["Distance"] >= inicio) & (tel1["Distance"] < fin)]
+        seg2 = tel2[(tel2["Distance"] >= inicio) & (tel2["Distance"] < fin)]
+
+        vel1 = seg1["Speed"].mean() if len(seg1) > 0 else 0
+        vel2 = seg2["Speed"].mean() if len(seg2) > 0 else 0
+
+        color = color1 if vel1 >= vel2 else color2
+
+        tramo = pos1[(pos1["Distance"] >= inicio) & (pos1["Distance"] < fin)]
+        if len(tramo) > 0:
+            x_all.append(tramo["X"].values)
+            y_all.append(tramo["Y"].values)
+            colores.append(color)
+
+    fig, ax = plt.subplots(figsize=(12, 10))
+
+    for x, y, color in zip(x_all, y_all, colores):
+        ax.plot(x, y, color=color, linewidth=10, solid_capstyle="butt", solid_joinstyle="round")
+
+    ax.set_aspect("equal")
+    ax.axis("off")
+    ax.set_title(
+        f"{circuito} {anio} – Q: Minisectores {driver1.upper()} vs {driver2.upper()}",
+        fontsize=14
+    )
+    ax.legend(
+        handles=[
+            mpatches.Patch(color=color1, label=driver1.upper()),
+            mpatches.Patch(color=color2, label=driver2.upper()),
+        ],
+        loc="lower right",
+        fontsize=11
+    )
+
+    plt.tight_layout()
+    return fig
+    
+
 # ── Renderizado ───────────────────────────────────────────────────────────
 if generar:
     if not circuito:
@@ -277,6 +391,8 @@ if generar:
                         fig = grafico_estrategia_neumaticos(anio, circuito)
                     case "5. Evolución de posiciones":
                         fig = grafico_posiciones_carrera(anio, circuito)
+                    case "6. Minisectores":
+                        fig = grafico_minisectores(anio, circuito, driver1, driver2)
 
             st.pyplot(fig)
             plt.close(fig)
@@ -285,3 +401,6 @@ if generar:
             limpiar_todo()
         except Exception as e:
             st.error(f"Error: {e}\nVerificá el año, circuito y piloto.")
+            
+time.sleep(1)
+st.rerun()
