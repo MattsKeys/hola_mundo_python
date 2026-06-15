@@ -1,4 +1,15 @@
+# Entorno virtual
 __pycache__/
 .venv/
-f1_cache/
+*.pyc
+
+
+# Variables entorno y credenciales
 .env
+
+# Configuracion IDE y locales
+.vscode/
+.idea/
+
+# Otros
+f1_cache/
