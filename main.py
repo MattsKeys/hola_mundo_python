@@ -1,10 +1,13 @@
 import cowsay
 import sys
+import src.ejercicios.funciones_basicas
 
 from transacciones import ejecutar_proceso
+from config.openvergai.chat import preguntar
+#from config.openvergai.chat import preguntar
+
 #from src.ejercicios.ia_diccionario import ConfigIA,init_config_ia
 #from src.ejercicios.ia_comunicaciones import simula_envio
-import src.ejercicios.funciones_basicas
 
 
 def menu_principal():
@@ -14,6 +17,7 @@ def menu_principal():
     print("2. Mostrar mensajes de cowsay")
     print("3. Enviar Prompt")
     print("4. ponete en 4")
+    print("5. SHAT HABLA")
     print("8. Botonera")
     print("x. Salir")
     
@@ -34,7 +38,18 @@ def menu_principal():
             #respuesta = simula_envio(configuracion_ia)
             #print(f"Esta es la respuesta de la funcion: {respuesta}")
         case "5":
-            pass
+            print("Bienvenido al shat")
+
+            prompt = input("Ingrese un prompt: ")
+            
+            match len(prompt):
+                case 0:
+                    print("comeme los eggs")
+                
+                case _:
+                    respuesta = preguntar(prompt)
+                    print(respuesta)
+
         case "8":
             pass
         case "x":
