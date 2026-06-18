@@ -1,7 +1,7 @@
 from openai import OpenAI
-from .configuracion_modelo import GITHUB_TOKEN
+from .configuracion_modelo import API_KEY
 
 client = OpenAI(
-    api_key=GITHUB_TOKEN,
+    api_key=API_KEY,
     base_url="https://models.github.ai/inference"
 )
