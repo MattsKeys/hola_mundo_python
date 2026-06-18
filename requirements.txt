@@ -17,6 +17,7 @@ executing==2.2.1
 fastapi
 fastf1==3.8.3
 fonttools==4.63.0
+gradio
 h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
