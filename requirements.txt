@@ -70,5 +70,4 @@ uvicorn
 wcwidth==0.8.1
 websockets==16.0
 Streamlit==1.58.0
-openai==2.7.1
 python-dotenv>=1.0.0
