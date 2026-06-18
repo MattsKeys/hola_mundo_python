@@ -4,7 +4,7 @@ from .prompt import SYSTEM_PROMPT
 from .cliente import client
 from .modelos import GPT41
 from .parametros import TEMPERATURE
-from .configuracion_modelo import GITHUB_TOKEN, DEFAULT_MODEL
+from .configuracion_modelo import API_KEY, DEFAULT_MODEL
 
 def preguntar(prompt_usuario):
     messages = [
